@@ -9,22 +9,39 @@ function getServiceData() {
     axios.get(url + 'getServiceData')
         .then(function(response) {
 
-            var jsonData = response.data;
+            if (response.status == 200) {
 
-            $.each(jsonData, function(i, item) {
+                $('#mainDiv').removeClass('d-none');
+                $('#lodarDiv').addClass('d-none');
 
-                // console.log(jsonData[i].service_name);
-                $('<tr>').html(
-                    "<td> <img class='table-img' src=" + jsonData[i].service_img + "></td>" +
-                    "<td>" + jsonData[i].service_name + "</td>" +
-                    "<td>" + jsonData[i].service_des + "</td>" +
-                    "<td> <a href='' ><i class='fas fa-edit'></i> </a> </td>" +
-                    "<td> <a href='' ><i class='fas fa-trash-alt'></i></a> </td>"
-                ).appendTo('#service_table');
+                var jsonData = response.data;
 
-            });
+                $.each(jsonData, function(i, item) {
+
+                    // console.log(jsonData[i].service_name);
+                    $('<tr>').html(
+                        "<td> <img class='table-img' src=" + jsonData[i].service_img + "></td>" +
+                        "<td>" + jsonData[i].service_name + "</td>" +
+                        "<td>" + jsonData[i].service_des + "</td>" +
+                        "<td> <a href='' ><i class='fas fa-edit'></i> </a> </td>" +
+                        "<td> <a id='ServiceDeleteBtn' data-id = " + jsonData[i].id + " > <i class = 'fas fa-trash-alt'> </i></a> </td>"
+                    ).appendTo('#service_table');
+
+                });
+
+                $('#ServiceDeleteBtn').click(function(e) {
+                    var id = $(this).data('id');
+                    $('#ServiceDeleteId').html(id);
+                    $('#deleteModal').modal('show');
+                });
+            } else {
+                $('#lodarDiv').addClass('d-none');
+                $('#wrongDiv').removeclass('d-none');
+            }
+
         })
         .catch(function(error) {
-
+            $('#lodarDiv').addClass('d-none');
+            $('#wrongDiv').removeClass('d-none');
         });
 }

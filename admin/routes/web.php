@@ -21,4 +21,6 @@ Route::get('/service', 'ServiceController@ServiceIndex');
 
 Route::get('/getServiceData', 'ServiceController@getServiceData');
 
+Route::post('/ServiceDelete', 'ServiceController@ServiceDelete');
+
 
